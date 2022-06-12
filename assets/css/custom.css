@@ -1,0 +1,18 @@
+.icon-dash{
+    font-size: 53px;
+}
+
+.text-left{
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px dashed #ababab;
+}
+.text-left::first-letter {
+  text-transform:capitalize;
+}
+
+@media(max-width: 500px){
+  .breadcrumb{
+    display:none;
+  }
+}
