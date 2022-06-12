@@ -67,9 +67,11 @@
                                     <!-- Tab panes -->
                                     <div class="tab-content text-muted">
                                         <div class="tab-pane active" id="all" role="tabpanel">
+                                            <p class="text-center mx-3">Scraper <b>running sehari sekali</b>, dan jika ada perubahan pada file lama otomatis diupdate.<br>File 2 hari yang lalu akan dihapus.</p>
                                             <table id="jadwal" class="table table-bordered dt-responsive  nowrap w-100">
                                                 <thead>
                                                     <tr>
+                                                        <th>ID</th>
                                                         <th>State</th>
                                                         <th>Olahraga</th>
                                                         <th>Gender</th>
@@ -360,7 +362,7 @@
 <!-- choices js -->
 <script src="assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
 <!-- init js -->
-<script src="assets/js/pages/form-advanced.init.js?v=1"></script>
+<script src="assets/js/pages/form-advanced.init.js?v=2"></script>
 
 <?php if (in_groups('admin')) : ?>
     <script src="assets/js/pages/dashboard.init.js"></script>

@@ -27,6 +27,8 @@ $(document).ready(function() {
             "url": `${site_url}/dashboard/tabel_jadwal`,
         },
         'columns': [{
+                'data': 'id'
+            },{
                 'data': 'state'
             }, {
                 'data': 'olahraga'
@@ -56,7 +58,7 @@ $(document).ready(function() {
                 render: function(data){
                     var d = new Date(data);
                     var dd = parseInt(d.getMonth()) + 1;
-                    return d.getHours() + ':' + d.getMinutes() + ' ' + d.getDate() + '-' + dd + '-' + d.getFullYear();
+                    return d.getDate() + '-' + dd + '-' + d.getFullYear();
                 }
             }, {
                 'data': 'id',
@@ -66,7 +68,7 @@ $(document).ready(function() {
             }
         ],
         'order': [
-            [7, "desc"]
+            [0, "desc"]
         ],
     });
 });
@@ -103,13 +105,28 @@ $(document).ready(function() {
                     return 'Rp. ' + data + ',-';
                 }
             }, {
-                'data': 'tanggal_game'
+                'data': 'tanggal_game',
+                render: function(data){
+                    var d = new Date(data);
+                    var dd = parseInt(d.getMonth()) + 1;
+                    return d.getDate() + '-' + dd + '-' + d.getFullYear();
+                }
             }, {
-                'data': 'tanggal' // tanggal order
+                'data': 'tanggal',
+                render: function(data){
+                    var d = new Date(data);
+                    var dd = parseInt(d.getMonth()) + 1;
+                    return d.getDate() + '-' + dd + '-' + d.getFullYear();
+                }
             }, {
                 'data': 'id',
-                render: function(data){
-                    return `<button class="btn btn-primary btn-sm" onclick="downloadFile('${data}')">Download</button>`;
+                render: function(data, tipe, row){
+                    if(row.status == 'dihapus'){
+                        var htm = `<button class="btn btn-secondary btn-sm" disabled">Deleted</button>`;
+                    } else {
+                        var htm = `<button class="btn btn-primary btn-sm" onclick="downloadFile('${data}')">Download</button>`;
+                    }
+                    return htm;
                 }
 
             }
@@ -146,13 +163,22 @@ $(document).ready(function() {
                     return 'Rp. ' + data + ',-';
                 }
             }, {
-                'data': 'tanggal'
+                'data': 'tanggal',
+                render: function(data){
+                    var d = new Date(data);
+                    var dd = parseInt(d.getMonth()) + 1;
+                    return d.getDate() + '-' + dd + '-' + d.getFullYear();
+                }
             }, {
                 'data': 'id',
-                render: function(data){
-                    return `<button class="btn btn-primary btn-sm" onclick="downloadFile('${data}', 'bulk')">Download</button>`;
+                render: function(data, tipe, row){
+                    if(row.status == 'dihapus'){
+                        var htm = `<button class="btn btn-secondary btn-sm" disabled">Deleted</button>`;
+                    } else {
+                        var htm = `<button class="btn btn-primary btn-sm" onclick="downloadFile('${data}', 'bulk')">Download</button>`;
+                    }
+                    return htm;
                 }
-
             }
         ],
         'order': [

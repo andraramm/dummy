@@ -8,6 +8,8 @@ use App\Models\OrderModel;
 use App\Models\BulkModel;
 use PDO;
 
+date_default_timezone_set('Asia/Jakarta');
+
 class Dashboard extends BaseController
 {
     protected $fileModel;

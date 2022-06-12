@@ -25,15 +25,15 @@ class FileModel extends Model
         if ($katakunci) {
             $arr_katakunci = explode(" ", $katakunci);
             for ($x = 0; $x < count($arr_katakunci); $x++) {
-                $builder = $builder->orLike('id', $arr_katakunci[$x])->whereNotIn('status',['dihapus']);
-                $builder = $builder->orLike('state', $arr_katakunci[$x])->whereNotIn('status',['dihapus']);
-                $builder = $builder->orLike('olahraga', $arr_katakunci[$x])->whereNotIn('status',['dihapus']);
-                $builder = $builder->orLike('kelamin', $arr_katakunci[$x])->whereNotIn('status',['dihapus']);
-                $builder = $builder->orLike('situs', $arr_katakunci[$x])->whereNotIn('status',['dihapus']);
-                $builder = $builder->orLike('total_game', $arr_katakunci[$x])->whereNotIn('status',['dihapus']);
-                $builder = $builder->orLike('harga', $arr_katakunci[$x])->whereNotIn('status',['dihapus']);
-                $builder = $builder->orLike('tanggal_game', $arr_katakunci[$x])->whereNotIn('status',['dihapus']);
-                $builder = $builder->orLike('tanggal', $arr_katakunci[$x])->whereNotIn('status',['dihapus']);
+                $builder = $builder->orLike('id', $arr_katakunci[$x])->whereNotIn('status', ['dihapus']);
+                $builder = $builder->orLike('state', $arr_katakunci[$x])->whereNotIn('status', ['dihapus']);
+                $builder = $builder->orLike('olahraga', $arr_katakunci[$x])->whereNotIn('status', ['dihapus']);
+                $builder = $builder->orLike('kelamin', $arr_katakunci[$x])->whereNotIn('status', ['dihapus']);
+                $builder = $builder->orLike('situs', $arr_katakunci[$x])->whereNotIn('status', ['dihapus']);
+                $builder = $builder->orLike('total_game', $arr_katakunci[$x])->whereNotIn('status', ['dihapus']);
+                $builder = $builder->orLike('harga', $arr_katakunci[$x])->whereNotIn('status', ['dihapus']);
+                $builder = $builder->orLike('tanggal_game', $arr_katakunci[$x])->whereNotIn('status', ['dihapus']);
+                $builder = $builder->orLike('tanggal', $arr_katakunci[$x])->whereNotIn('status', ['dihapus']);
             }
         }
         if ($start != 0 or $length != 0) {
@@ -47,20 +47,20 @@ class FileModel extends Model
         $builder = $this->table('file');
 
         if ($gender && $gender != 'all') {
-            $builder = $builder->where('kelamin', $gender);
+            $builder = $builder->where('kelamin', $gender)->whereNotIn('status', ['dihapus']);
         }
 
         if ($state && $state != 'all') {
-            $builder = $builder->where('state', $state);
+            $builder = $builder->where('state', $state)->whereNotIn('status', ['dihapus']);
         }
 
         if ($olahraga && $olahraga != 'all') {
-            $builder = $builder->where('olahraga', $olahraga);
+            $builder = $builder->where('olahraga', $olahraga)->whereNotIn('status', ['dihapus']);
         }
 
         if ($tanggal) {
             if (count($tanggal) != 0) {
-                $builder = $builder->whereIn('tanggal_game', $tanggal);
+                $builder = $builder->whereIn('tanggal_game', $tanggal)->whereNotIn('status', ['dihapus']);
             }
         }
 
