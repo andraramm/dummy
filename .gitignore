@@ -1,6 +1,6 @@
 csv/
 temp/
-Database.php
+main/App/Config/Database.php
 App.php
 
 #-------------------------
