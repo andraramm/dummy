@@ -357,7 +357,7 @@
 <script src="assets/js/pages/datatables.init.js?v=<?= INIT_VERSION; ?>"></script>
 
 <!-- App js -->
-<script src="assets/js/app.js"></script>
+<script src="assets/js/app.js?v=<?= INIT_VERSION; ?>"></script>
 
 <!-- choices js -->
 <script src="assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
