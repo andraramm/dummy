@@ -1,3 +1,9 @@
+csv/
+temp/
+main/App/Config/Database.php
+main/App/Config/App.php
+README.md
+
 #-------------------------
 # Operating Specific Junk Files
 #-------------------------
