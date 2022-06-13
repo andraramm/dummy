@@ -42,7 +42,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="card">
-                                <div class="card-header align-items-center d-flex">
+                                <div class="card-header sidebar-alert align-items-center d-flex">
                                     <h4 class="card-title mb-0 flex-grow-1">Daftar Jadwal</h4>
                                     <div class="flex-shrink-0">
                                         <ul class="nav justify-content-end nav-tabs-custom rounded card-header-tabs" role="tablist">
@@ -165,7 +165,7 @@
                         </div><!-- end col -->
                         <div class="col-sm-6">
                             <div class="card">
-                                <div class="card-header align-items-center d-flex">
+                                <div class="card-header sidebar-alert align-items-center d-flex">
                                     <h4 class="card-title mb-0 flex-grow-1">Riwayat Order</h4>
                                     <div class="flex-shrink-0">
                                         <ul class="nav justify-content-end nav-tabs-custom rounded card-header-tabs" role="tablist">
@@ -352,9 +352,9 @@
 <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
 
 <!-- Sweet alert init js-->
-<script src="assets/js/pages/sweetalert.init.js?v=1"></script>
+<script src="assets/js/pages/sweetalert.init.js?v=<?= INIT_VERSION; ?>"></script>
 <!-- Datatable init js -->
-<script src="assets/js/pages/datatables.init.js?v=2"></script>
+<script src="assets/js/pages/datatables.init.js?v=<?= INIT_VERSION; ?>"></script>
 
 <!-- App js -->
 <script src="assets/js/app.js"></script>
@@ -362,7 +362,7 @@
 <!-- choices js -->
 <script src="assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
 <!-- init js -->
-<script src="assets/js/pages/form-advanced.init.js?v=2"></script>
+<script src="assets/js/pages/form-advanced.init.js?v=<?= INIT_VERSION; ?>"></script>
 
 <?php if (in_groups('admin')) : ?>
     <script src="assets/js/pages/dashboard.init.js"></script>

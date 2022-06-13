@@ -55,6 +55,7 @@ if ($mt) {
 $routes->get('/', 'Home::index');
 $routes->get('/dashboard', 'Dashboard::index');
 $routes->get('/deposit', 'Deposit::index');
+$routes->get('/profile', 'Profile::index');
 
 
 // $routes->get('index-dark', 'Home::show_index_dark');

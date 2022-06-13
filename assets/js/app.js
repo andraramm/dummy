@@ -1,6 +1,44 @@
 (function ($) {
     'use strict';
+    
     var site_url = window.location.protocol + '//' + window.location.hostname;
+
+    $('#generate').on('click', function(){
+        $("#generate").prop( "disabled", true );
+        $('#generate').html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>');
+        $.ajax({
+            url: site_url + '/profile/generate',
+            type: 'get',
+            success: function(hasil){
+                var obj = $.parseJSON(hasil);
+                if(obj.error){
+                    $("#generate").prop( "disabled", false );
+                    $('#generate').html('Generate');
+                    Swal.fire(obj.teks, '', "error");
+                } else {
+                    $('#generate').remove();
+                    $('#copy').show();
+                    $('#url').val(obj.url);
+                    Swal.fire(obj.teks, '', "success");
+                }
+            }
+        })
+    })
+
+
+    $('#copy').on('click', function(){
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($('#url').val()).select();
+        document.execCommand("copy");
+        $temp.remove();
+        
+        $('#copy').html("<i class='bx bxs-copy'></i>");
+        setTimeout(() => {
+            $('#copy').html('<i class="bx bx-copy"></i>');
+        }, 500);
+    })
+
 
     $(document).on('change','#manual',function(){
         $.ajax({

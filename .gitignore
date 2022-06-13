@@ -1,7 +1,7 @@
 csv/
 temp/
 main/App/Config/Database.php
-App.php
+main/App/Config/App.php
 
 #-------------------------
 # Operating Specific Junk Files

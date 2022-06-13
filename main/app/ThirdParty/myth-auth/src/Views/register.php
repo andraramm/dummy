@@ -13,6 +13,8 @@
 
     <?= $this->include('partials/head-css') ?>
 
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 </head>
 
 <?= $this->include('partials/body') ?>
@@ -38,6 +40,9 @@
 
                                 <form action="<?= route_to('register') ?>" method="post">
                                     <?= csrf_field() ?>
+                                    <?php if (isset($_GET['ref']) || isset($_COOKIE['ref'])) : ?>
+                                        <input type="hidden" name=ref value="<?= isset($_GET['ref']) ? $_GET['ref'] : $_COOKIE['ref']; ?>">
+                                    <?php endif; ?>
                                     <div class="mb-3">
                                         <label for="useremail" class="form-label">Email</label>
                                         <input type="email" class="form-control <?php if (session('errors.email')) : ?>is-invalid<?php endif ?>" name="email" id=" useremail" placeholder="Enter email" value="<?= old('email') ?>" required>
@@ -71,8 +76,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="g-recaptcha" data-sitekey="6LdNpGYgAAAAALoYheffyJDJOlaLtHPsGTPJa2LD" style="text-align: -webkit-center;"></div>
+                                    <?php if (session('robot')) : ?>
+                                        <p class="mb-1 text-danger"><?= session('robot'); ?></p>
+                                    <?php endif; ?>
+                                    <br />
+
+
                                     <div class="mb-4">
-                                        <p class="mb-0">By registering you agree to the Minia <a href="#" class="text-primary">Terms of Use</a></p>
+                                        <p class="mb-0">By registering you agree to the Scraper <a href="#" class="text-primary">Terms of Use</a></p>
                                     </div>
                                     <div class="mb-3">
                                         <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">Register</button>

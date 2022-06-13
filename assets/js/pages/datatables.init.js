@@ -341,12 +341,13 @@ function saveChangeDepo(){
         url: site_url + '/deposit/saveChangeDepo',
         type: 'post',
         data: {
-            'id': $('#id').val(),
-            'depostatus': $("#depostatus").val(),
+            id: $('#id').val(),
+            depostatus: $("#depostatus").val(),
         },
         success: function(hasil){
             var obj = $.parseJSON(hasil);
             if(obj.error){
+                console.log(obj.data);
                 $('#exampleModalScrollable').modal('hide');
                 Swal.fire(obj.teks, '', "error");
                 $('#riwayat_depo_admin').DataTable().ajax.reload();
@@ -358,3 +359,36 @@ function saveChangeDepo(){
         }
     })   
 }
+
+// tabel referral
+$(document).ready(function() {
+    $('#referral').DataTable({
+        'processing': true,
+        'serverSide': true,
+        'lengthChange': true,
+        'autoWidth': true,
+        'serverMethod': 'post',
+        'ajax': {
+            "url": `${site_url}/profile/tabel_referral`,
+        },
+        'columns': [{
+            'data': 'username'
+        }, {
+            'data': 'komisi',
+            render: function(data){
+                return (data) ? data : '-';
+            }
+        }, {
+            'data': 'created_at',
+            render: function(data){
+                var d = new Date(data);
+                var dd = parseInt(d.getMonth()) + 1;
+                return d.getDate() + '-' + dd + '-' + d.getFullYear();
+            }
+        }
+        ],
+        'order': [
+            [2, "desc"]
+        ],
+    });
+});

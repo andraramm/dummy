@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Custom defines
+ */
+defined('INIT_VERSION') || define('INIT_VERSION', 6);
+
 /*
  | --------------------------------------------------------------------
  | App Namespace

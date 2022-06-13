@@ -214,16 +214,74 @@ class Deposit extends BaseController
             ];
 
             if ($statusLama == 'BELUM BAYAR' && $statusBaru == 'LUNAS') {
-                // tambahkan user
-                $userData['saldo'] = $user['saldo'] + $paket;
+                //tambah saldo user
+                // referral
+                // cek jika ini deposit pertama
+                if (count($this->depositModel->where('user_id', $depo['user_id'])->find()) == 1) {
+
+                    // cek jika user punya referral
+                    if ($user['ref']) {
+                        // komisi untuk referral 10%
+                        $ref_kom = (10 / 100) * $paket;
+                        $userData['komisi'] = $ref_kom;
+                        // komisi untuk user 5%
+                        $user_kom = (5 / 100) * $paket;
+                        $userData['saldo'] = $user['saldo'] + $paket + $user_kom;
+
+                        // update referral saldo
+                        if ($user_ref = $this->usersModel->where('refCode', $user['ref'])->first()) {
+                            $dataReferral = [
+                                'id' => $user_ref['id'],
+                                'saldo' => $user_ref['saldo'] + $ref_kom
+                            ];
+
+                            // $hasil['error'] = true;
+                            // $hasil['data'] = $this->usersModel->where('refCode', $user['ref'])->find();
+                            // return json_encode($hasil);
+
+                            $this->usersModel->save($dataReferral);
+                        }
+                    } else {
+                        $userData['saldo'] = $user['saldo'] + $paket;
+                    }
+                } else {
+                    $userData['saldo'] = $user['saldo'] + $paket;
+                }
             }
 
             if ($statusLama == 'LUNAS' && $statusBaru == 'BELUM BAYAR') {
                 // kurangi saldo user
-                $userData['saldo'] = ($user['saldo'] - $paket <  0) ? 0 : $user['saldo'] - $paket;
+                // referral
+                // cek jika ini deposit pertama
+                if (count($this->depositModel->where('user_id', $depo['user_id'])->find()) == 1) {
+
+                    // cek jika user punya referral
+                    if ($user['ref']) {
+                        $userData['komisi'] = 0;
+
+                        $user_kom = (5 / 100) * $paket;
+                        $kurang_user = $paket + $user_kom;
+                        $userData['saldo'] = ($user['saldo'] - $kurang_user < 0) ? 0 : $user['saldo'] - $kurang_user;
+
+                        // update referral saldo
+                        if ($user_ref = $this->usersModel->where('refCode', $user['ref'])->first()) {
+                            $dataReferral = [
+                                'id' => $user_ref['id'],
+                                'saldo' => $user_ref['saldo'] - $ref_kom
+                            ];
+
+                            $this->usersModel->save($dataReferral);
+                        }
+                    } else {
+                        $userData['saldo'] = ($user['saldo'] - $paket <  0) ? 0 : $user['saldo'] - $paket;
+                    }
+                } else {
+                    $userData['saldo'] = ($user['saldo'] - $paket <  0) ? 0 : $user['saldo'] - $paket;
+                }
             }
 
             $this->usersModel->save($userData);
+
             $hasil['error'] = false;
             $hasil['teks'] = 'Berhasil menyimpan perubahan.';
         } else {

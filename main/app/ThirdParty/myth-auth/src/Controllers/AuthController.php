@@ -120,6 +120,9 @@ class AuthController extends Controller
      */
     public function register()
     {
+        if (isset($_GET['ref'])) {
+            setcookie('ref', $_GET['ref'], time() + (86400 * 30), "/"); // 86400 = 1 day
+        }
         // check if already logged in.
         if ($this->auth->check()) {
             return redirect()->back();
@@ -141,6 +144,38 @@ class AuthController extends Controller
         // Check if registration is allowed
         if (!$this->config->allowRegistration) {
             return redirect()->back()->withInput()->with('error', lang('Auth.registerDisabled'));
+        }
+
+        // reCaptcha
+        $captcha_response = trim($this->request->getPost('g-recaptcha-response'));
+
+        if ($captcha_response != '') {
+            $keySecret = '6LdNpGYgAAAAALho1HNHgdiGGr8mnNWboN0fDgjn';
+
+            $check = array(
+                'secret'        =>    $keySecret,
+                'response'        =>    $this->request->getPost('g-recaptcha-response')
+            );
+
+            $startProcess = curl_init();
+
+            curl_setopt($startProcess, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+            curl_setopt($startProcess, CURLOPT_POST, true);
+            curl_setopt($startProcess, CURLOPT_POSTFIELDS, http_build_query($check));
+            curl_setopt($startProcess, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($startProcess, CURLOPT_RETURNTRANSFER, true);
+            $receiveData = curl_exec($startProcess);
+            $finalResponse = json_decode($receiveData, true);
+
+            if (!$finalResponse['success']) {
+                // $this->session->set_flashdata('message', 'Gagal memverifikasi bahwa anda bukan robot.');
+                // return redirect()->to('/register');
+                return redirect()->back()->withInput()->with('robot', 'Gagal memverifikasi bahwa anda bukan robot.');
+            }
+        } else {
+            // $this->session->set_flashdata('message', 'Gagal memverifikasi bahwa anda bukan robot.');
+            // return redirect()->to('/register');
+            return redirect()->back()->withInput()->with('robot', 'Gagal memverifikasi bahwa anda bukan robot.');
         }
 
         $users = model(UserModel::class);

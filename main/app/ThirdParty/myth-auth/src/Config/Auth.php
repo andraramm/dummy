@@ -86,7 +86,7 @@ class Auth extends BaseConfig
      *
      * @var string[]
      */
-    public $personalFields = [];
+    public $personalFields = ['ref'];
 
     /**
      * --------------------------------------------------------------------
@@ -149,8 +149,8 @@ class Auth extends BaseConfig
      *
      * @var string|null Name of the ActivatorInterface class
      */
-    public $requireActivation = 'Myth\Auth\Authentication\Activators\EmailActivator';
-    // public $requireActivation;
+    // public $requireActivation = 'Myth\Auth\Authentication\Activators\EmailActivator';
+    public $requireActivation;
     /**
      * --------------------------------------------------------------------
      * Allow Password Reset via Email

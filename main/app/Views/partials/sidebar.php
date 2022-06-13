@@ -37,9 +37,9 @@
 
                 <?php if (in_groups('admin') || user_id() == 2) : ?>
                     <li>
-                        <a href="/">
+                        <a href="/profile">
                             <i data-feather="user"></i>
-                            <span>Profil</span>
+                            <span>Profile</span>
                         </a>
                     </li>
 
