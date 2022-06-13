@@ -66,5 +66,7 @@ class Filters extends BaseConfig
 		'dashboard/',
 		'deposit/*',
 		'deposit/',
+		'profile/*',
+		'profile/',
 	]],];
 }
