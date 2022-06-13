@@ -35,13 +35,14 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="/profile">
+                        <i data-feather="user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
                 <?php if (in_groups('admin') || user_id() == 2) : ?>
-                    <li>
-                        <a href="/profile">
-                            <i data-feather="user"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
 
                     <li>
                         <a href="/">
