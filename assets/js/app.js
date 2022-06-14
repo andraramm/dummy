@@ -3,6 +3,105 @@
     
     var site_url = window.location.protocol + '//' + window.location.hostname;
 
+    $('#logout').on('click', function(){
+        window.location.href = '/logout';
+    })
+
+    $('#kirim_isiTiket').on('click', function(){
+        var isiTiket = $('#isiTiket').val();
+        var idTiket = $('#idTiket').val();
+
+        $.ajax({
+            url: site_url + '/tiket/sendIsiTiket/' + idTiket,
+            type: 'post',
+            data: {
+                isiTiket: isiTiket
+            },
+            success:function(hasil){
+                var obj = $.parseJSON(hasil);
+                if(obj.error){
+                    Swal.fire('Gagal!', 'Tiket gagal dikirim, ulangi beberapa saat lagi.', 'error');
+                } else {
+                    $("input[type=text], textarea").val("");
+                    $('#idTiket').val(id);
+                    var htm = [];
+                    var lastDate = [0];
+                    for(let t of obj.tiket){
+                        if(lastDate[lastDate.length - 1] != t.tanggal.split(' ')[0]){
+                            var tmp_date = `<li class="chat-day-title">
+                                                <span class="title">${t.tanggal.split(' ')[0]}</span>
+                                            </li>`;
+                            htm.push(tmp_date);
+                        }
+    
+                        lastDate.push(t.tanggal.split(' ')[0]);
+                        if(t.pengirim == obj.user){
+                            // kanan
+                            var tmp = `<li class="right">
+                                            <div class="conversation-list">
+                                                <div class="ctext-wrap">
+                                                    <div class="ctext-wrap-content">
+                                                        <h5 class="conversation-name"><span class="time">${t.tanggal.split(' ')[1]}</span></h5>
+                                                        <p class="mb-0">${t.pesan}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>`;
+                        } else {
+                            // kiri
+                            var tmp = `<li>
+                                            <div class="conversation-list">
+                                                <div class="ctext-wrap">
+                                                    <div class="ctext-wrap-content">
+                                                        <h5 class="conversation-name"><span class="time">${t.tanggal.split(' ')[1]}</span></h5>
+                                                        <p class="mb-0">${t.pesan}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>`;
+                        }
+                        htm.push(tmp);
+                    }
+    
+                    $('#isi_tiket').html(htm);
+                }
+            }
+        })
+    })
+
+    $('#buat_tiket').on('click', function(){
+        var subject = $('#subjek').val();
+        var pesan = $('#pesan').val();
+
+        if(subject.length > 500 || pesan.length > 500){
+            return Swal.fire('Gagal!', 'Subjek atau pesan tidak boleh lebih dari 500 karakter!', "error");
+        }
+        
+        if( subject == '' || pesan == ''){
+            return Swal.fire('Gagal!', 'Subjek atau pesan tidak boleh kosong!', "error");
+        }
+
+        $.ajax({
+            url: site_url + '/tiket/create',
+            type: 'post',
+            data: {
+                subject: subject,
+                pesan: pesan
+            },
+            success: function(hasil){
+                var obj = $.parseJSON(hasil);
+                if(obj.error){
+                    return Swal.fire('Gagal!', obj.teks, "error");
+                } else {
+                    $('#tiket').DataTable().ajax.reload();
+                    $('#exampleModalScrollable').modal('hide');
+                    $("input[type=text], textarea").val("");
+                    return Swal.fire('Berhasil!', 'Tiket berhasil dikirim, harap tunggu balasan Admin 1x24 jam.', "success");
+                }
+            }
+        })
+    })
+
     $('#generate').on('click', function(){
         $("#generate").prop( "disabled", true );
         $('#generate').html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>');

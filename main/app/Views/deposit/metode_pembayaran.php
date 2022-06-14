@@ -142,7 +142,7 @@
 <!-- Sweet alert init js-->
 <script src="/assets/js/pages/sweetalert.init.js"></script>
 
-<script src="../assets/js/app.js"></script>
+<script src="/assets/js/app.js"></script>
 
 </body>
 

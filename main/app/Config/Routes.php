@@ -54,6 +54,7 @@ if ($mt) {
 }
 $routes->get('/', 'Home::index');
 $routes->get('/dashboard', 'Dashboard::index');
+$routes->get('/faq', 'Dashboard::faq');
 $routes->get('/deposit', 'Deposit::index');
 $routes->get('/profile', 'Profile::index');
 

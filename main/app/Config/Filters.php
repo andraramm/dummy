@@ -68,5 +68,7 @@ class Filters extends BaseConfig
 		'deposit/',
 		'profile/*',
 		'profile/',
+		'tiket/*',
+		'tiket/',
 	]],];
 }

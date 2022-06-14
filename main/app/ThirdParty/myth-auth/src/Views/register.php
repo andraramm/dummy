@@ -96,7 +96,7 @@
                                 </div>
                             </div>
                             <div class="mt-4 mt-md-5 text-center">
-                                <p class="mb-0">© <?= date('Y'); ?> Scraper . Develop by HeyhaDigital</p>
+                                <p class="mb-0">© <?= date('Y'); ?> Scraper.</p>
                             </div>
                         </div>
                     </div>

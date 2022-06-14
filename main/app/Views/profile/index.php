@@ -76,6 +76,7 @@
                                         <button class="btn btn-primary shadow-none" id="copy" <?= ($refCode) ? '' : 'style="display: none;"'; ?>><i class="bx bx-copy"></i></button>
                                     </div>
                                 </div>
+                                <p class="text-center">Komisi yang akan kamu dapat <b>10% dari jumlah deposit pertama</b> teman yang jadi referralmu dan <b>5% untuk temanmu.</b></p>
                                 <h5 class="text-center mb-4">Total Komisi : <span id="komisi">Rp <?= number_format($komisi, 0, '.', '.'); ?>,-</span></h5>
                                 <table id="referral" class="table table-bordered dt-responsive  nowrap w-100">
                                     <thead>

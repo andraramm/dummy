@@ -42,14 +42,21 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="/tiket">
+                        <i data-feather="mail"></i>
+                        <span>Tiket</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/faq">
+                        <i data-feather="help-circle"></i>
+                        <span>F.A.Q</span>
+                    </a>
+                </li>
                 <?php if (in_groups('admin') || user_id() == 2) : ?>
 
-                    <li>
-                        <a href="/">
-                            <i data-feather="mail"></i>
-                            <span>Tiket</span>
-                        </a>
-                    </li>
 
                     <li>
                         <a href="/">
@@ -58,27 +65,19 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a href="/">
-                            <i data-feather="help-circle"></i>
-                            <span>F.A.Q</span>
-                        </a>
-                    </li>
                 <?php endif; ?>
             </ul>
 
-            <?php if (in_groups('admin') || user_id() == 2) : ?>
-                <div class="card sidebar-alert border-0 text-center mx-4 mb-0 mt-5">
-                    <div class="card-body">
-                        <img src="/assets/images/giftbox.png" alt="">
-                        <div class="mt-4">
-                            <h5 class="alertcard-title font-size-16">Bonus Refferal</h5>
-                            <p class="font-size-13">Undang temanmu dan dapatkan saldo bonus.</p>
-                            <a href="#!" class="btn btn-primary mt-2">Undang Sekarang</a>
-                        </div>
+            <div class="card sidebar-alert border-0 text-center mx-4 mb-0 mt-5">
+                <div class="card-body">
+                    <img src="/assets/images/giftbox.png" alt="">
+                    <div class="mt-4">
+                        <h5 class="alertcard-title font-size-16">Bonus Referral</h5>
+                        <p class="font-size-13">Undang temanmu dan dapatkan saldo bonus untuk kedua belah pihak.</p>
+                        <a href="/profile?=offer" class="btn btn-primary mt-2">Undang Sekarang</a>
                     </div>
                 </div>
-            <?php endif; ?>
+            </div>
         </div>
         <!-- Sidebar -->
     </div>

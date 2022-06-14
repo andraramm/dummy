@@ -3,7 +3,7 @@
 /**
  * Custom defines
  */
-defined('INIT_VERSION') || define('INIT_VERSION', 10);
+defined('INIT_VERSION') || define('INIT_VERSION', 11);
 
 /*
  | --------------------------------------------------------------------

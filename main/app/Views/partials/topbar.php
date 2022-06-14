@@ -127,10 +127,10 @@
             <?php endif; ?>
 
             <div class="dropdown d-inline-block">
-                <button type="button" class="btn header-item" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="/assets/images/users/user.png" alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1 fw-medium"><?= user()->username; ?></span>
-                    <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                <button id="logout" class="btn header-item">
+                    <svg style="width: 21px;height: 21px;" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z"></path>
+                    </svg>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->

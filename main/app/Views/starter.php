@@ -49,7 +49,7 @@
 <!-- JAVASCRIPT -->
 <?= $this->include('partials/vendor-scripts') ?>
 
-<script src="assets/js/app.js"></script>
+<script src="assets/js/app.js?v=<?= INIT_VERSION; ?>"></script>
 
 </body>
 

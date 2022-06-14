@@ -34,13 +34,13 @@ class Scraper extends BaseController
         foreach ($list_state as $ls) {
             // buka spesifik state
             $html = new Simple_html_dom();
-            
+
             $header = @file_get_contents("https://www.maxpreps.com" . $ls->href);
 
             if (!$header) {
                 continue;
             }
-            
+
             $html->load($header);
 
             // nama state
@@ -137,8 +137,8 @@ class Scraper extends BaseController
                             'harga' => $harga,
                             'status' => $status,
                         ];
-                        
-                        if($status == 'update'){
+
+                        if ($status == 'update') {
                             $data['tanggal'] = date("Y-m-d H:i:s");
                         }
                     } else {
@@ -173,7 +173,7 @@ class Scraper extends BaseController
                     $next = true;
                     $next_date = $html->find('.week li a', count($week) - 1)->href;
                     $file_get = @file_get_contents("https://www.maxpreps.com" . $next_date);
-                    if(!$file_get){
+                    if (!$file_get) {
                         $lanjut++;
                     } else {
                         $html = new Simple_html_dom();
@@ -186,16 +186,16 @@ class Scraper extends BaseController
                 }
             } while ($next);
         }
-        
+
         echo 'done';
     }
 
     public function proxy()
     {
         $url = $_GET['url'];
-        
+
         $file = @file_get_contents(urldecode($url));
-        if(!$file){
+        if (!$file) {
             return false;
         } else {
             return $file;
@@ -273,10 +273,5 @@ class Scraper extends BaseController
         }
 
         $this->fileModel->save($data);
-    }
-    public function tes(){
-        $file_name = 'tes.csv';
-        $url = 'http://103.146.202.238/dl/Layanan 1 - KodeOTP.html';
-        file_put_contents("csv/$file_name", file_get_contents(str_replace(" ", "%20", $url)));
     }
 }

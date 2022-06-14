@@ -422,4 +422,14 @@ class Dashboard extends BaseController
 
         return json_encode($hasil);
     }
+    public function faq()
+    {
+        $data = [
+            'file' => $this->fileModel->findAll(),
+            'title_meta' => view('partials/title-meta', ['title' => 'F.A.Q']),
+            'page_title' => view('partials/page-title', ['title' => 'F.A.Q', 'li_1' => 'Home', 'li_2' => 'F.A.Q'])
+        ];
+
+        return view('faq', $data);
+    }
 }
