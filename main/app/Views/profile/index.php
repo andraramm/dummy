@@ -112,10 +112,10 @@
                                     <div class="mb-3">
                                         <label class="form-label">Metode Pembayaran<br><span class="text-danger">*Hanya menerima metode dibawah ini</span></label>
                                         <select id="payment1" class="form-control">
-                                            <option value="bca" <?= ($marketing['status'] == 'bca') ? 'selected' : ''; ?>>BCA</option>
-                                            <option value="bri" <?= ($marketing['status'] == 'bri') ? 'selected' : ''; ?>>BRI</option>
-                                            <option value="dana" <?= ($marketing['status'] == 'dana') ? 'selected' : ''; ?>>Dana</option>
-                                            <option value="shopeepay" <?= ($marketing['status'] == 'shopeepay') ? 'selected' : ''; ?>>ShopeePay</option>
+                                            <option value="bca" <?= ($marketing['payment'] == 'bca') ? 'selected' : ''; ?>>BCA</option>
+                                            <option value="bri" <?= ($marketing['payment'] == 'bri') ? 'selected' : ''; ?>>BRI</option>
+                                            <option value="dana" <?= ($marketing['payment'] == 'dana') ? 'selected' : ''; ?>>Dana</option>
+                                            <option value="shopeepay" <?= ($marketing['payment'] == 'shopeepay') ? 'selected' : ''; ?>>ShopeePay</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
