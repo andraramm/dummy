@@ -19,7 +19,7 @@
                         </div>
                     </div>
                 </div>
-                <li class="menu-title" data-key="t-menu"><?= lang('Files.Menu') ?></li>
+                <li class="menu-title" data-key="t-menu"><?= (in_groups('admin')) ? 'Administrator' : 'Menu' ?></li>
 
                 <li>
                     <a href="/dashboard">
@@ -27,6 +27,21 @@
                         <span data-key="t-dashboard"><?= lang('Files.Dashboard') ?></span>
                     </a>
                 </li>
+
+                <?php if (in_groups('admin')) : ?>
+                    <li>
+                        <a href="/ManageUsers">
+                            <i data-feather="users"></i>
+                            <span>Manage Users</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/marketing">
+                            <i data-feather="send"></i>
+                            <span>Marketing</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
 
                 <li>
                     <a href="/deposit">
@@ -36,16 +51,19 @@
                 </li>
 
                 <li>
-                    <a href="/profile">
-                        <i data-feather="user"></i>
-                        <span>Profile</span>
-                    </a>
-                </li>
-
-                <li>
                     <a href="/tiket">
                         <i data-feather="mail"></i>
                         <span>Tiket</span>
+                    </a>
+                </li>
+
+                <?php if (in_groups('admin')) : ?>
+                    <li class="menu-title" data-key="t-menu">Menu</li>
+                <?php endif; ?>
+                <li>
+                    <a href="/profile">
+                        <i data-feather="user"></i>
+                        <span>Profile</span>
                     </a>
                 </li>
 

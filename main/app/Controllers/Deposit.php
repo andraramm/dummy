@@ -6,6 +6,7 @@ use App\Models\PaketModel;
 use App\Models\PembayaranModel;
 use App\Models\DepositModel;
 use App\Models\UsersModel;
+use App\Models\RoleModel;
 
 date_default_timezone_set('Asia/Jakarta');
 
@@ -15,11 +16,13 @@ class Deposit extends BaseController
     protected $pembayaranModel;
     protected $depositModel;
     protected $usersModel;
+    protected $roleModel;
     public function __construct()
     {
         $this->depositModel = new DepositModel();
         $this->pembayaranModel = new PembayaranModel();
         $this->paketModel = new PaketModel();
+        $this->roleModel = new RoleModel();
         $this->usersModel = new UsersModel();
     }
     public function index()
@@ -171,8 +174,8 @@ class Deposit extends BaseController
     // admin function
     public function editDepo($id)
     {
-        if (in_groups('user') || in_groups('banned')) {
-            return redirect()->to('/');
+        if (!in_groups('admin')) {
+            return redirect()->to('/dashboard');
         }
 
         $depo = $this->depositModel->getDeposit($id);
@@ -190,8 +193,8 @@ class Deposit extends BaseController
     }
     public function saveChangeDepo()
     {
-        if (in_groups('user') || in_groups('banned')) {
-            return redirect()->to('/');
+        if (!in_groups('admin')) {
+            return redirect()->to('/dashboard');
         }
 
         $id = $this->request->getVar('id');
@@ -221,25 +224,32 @@ class Deposit extends BaseController
 
                     // cek jika user punya referral
                     if ($user['ref']) {
-                        // komisi untuk referral 10%
-                        $ref_kom = (10 / 100) * $paket;
-                        $userData['komisi'] = $ref_kom;
-                        // komisi untuk user 5%
-                        $user_kom = (5 / 100) * $paket;
-                        $userData['saldo'] = $user['saldo'] + $paket + $user_kom;
-
                         // update referral saldo
                         if ($user_ref = $this->usersModel->where('refCode', $user['ref'])->first()) {
-                            $dataReferral = [
-                                'id' => $user_ref['id'],
-                                'saldo' => $user_ref['saldo'] + $ref_kom
-                            ];
+                            // komisi untuk user 5%
+                            $user_kom = (5 / 100) * $paket;
+                            $userData['saldo'] = $user['saldo'] + $paket + $user_kom;
 
-                            // $hasil['error'] = true;
-                            // $hasil['data'] = $this->usersModel->where('refCode', $user['ref'])->find();
-                            // return json_encode($hasil);
+                            $user_ref_id = $user_ref['id'];
 
-                            $this->usersModel->save($dataReferral);
+                            // cek jika user ref adalah marketing
+                            if ($this->roleModel->where("group_id=3 AND user_id='$user_ref_id'")->find()) {
+                                // komisi untuk marketing 50%
+                                $ref_kom = (50 / 100) * $paket;
+                                $userData['komisi_marketing'] = $ref_kom;
+                            } else {
+                                // komisi untuk referral 10%
+                                $ref_kom = (10 / 100) * $paket;
+                                $userData['komisi'] = $ref_kom;
+
+                                $dataReferral = [
+                                    'id' => $user_ref_id,
+                                    'saldo' => $user_ref['saldo'] + $ref_kom,
+                                ];
+                                $this->usersModel->save($dataReferral);
+                            }
+                        } else {
+                            $userData['saldo'] = $user['saldo'] + $paket;
                         }
                     } else {
                         $userData['saldo'] = $user['saldo'] + $paket;
@@ -257,20 +267,30 @@ class Deposit extends BaseController
 
                     // cek jika user punya referral
                     if ($user['ref']) {
-                        $userData['komisi'] = 0;
-
-                        $user_kom = (5 / 100) * $paket;
-                        $kurang_user = $paket + $user_kom;
-                        $userData['saldo'] = ($user['saldo'] - $kurang_user < 0) ? 0 : $user['saldo'] - $kurang_user;
-
                         // update referral saldo
                         if ($user_ref = $this->usersModel->where('refCode', $user['ref'])->first()) {
-                            $dataReferral = [
-                                'id' => $user_ref['id'],
-                                'saldo' => $user_ref['saldo'] - $ref_kom
-                            ];
+                            $user_kom = (5 / 100) * $paket;
+                            $kurang_user = $paket + $user_kom;
+                            $userData['saldo'] = ($user['saldo'] - $kurang_user < 0) ? 0 : $user['saldo'] - $kurang_user;
 
-                            $this->usersModel->save($dataReferral);
+                            $user_ref_id = $user_ref['id'];
+                            if ($this->roleModel->where("group_id=3 AND user_id='$user_ref_id'")->find()) {
+                                // komisi untuk marketing 
+                                $userData['komisi_marketing'] = 0;
+                            } else {
+                                // komisi untuk referral 
+                                $userData['komisi'] = 0;
+                                $ref_kom = $user['komisi'];
+
+                                $dataReferral = [
+                                    'id' => $user_ref_id,
+                                    'saldo' => $user_ref['saldo'] - $ref_kom
+                                ];
+
+                                $this->usersModel->save($dataReferral);
+                            }
+                        } else {
+                            $userData['saldo'] = ($user['saldo'] - $paket <  0) ? 0 : $user['saldo'] - $paket;
                         }
                     } else {
                         $userData['saldo'] = ($user['saldo'] - $paket <  0) ? 0 : $user['saldo'] - $paket;

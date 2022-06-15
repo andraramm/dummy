@@ -57,6 +57,7 @@ $routes->get('/dashboard', 'Dashboard::index');
 $routes->get('/faq', 'Dashboard::faq');
 $routes->get('/deposit', 'Deposit::index');
 $routes->get('/profile', 'Profile::index');
+$routes->get('/marketing', 'ManageUsers::marketing');
 
 
 // $routes->get('index-dark', 'Home::show_index_dark');

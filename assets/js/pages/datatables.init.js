@@ -393,6 +393,40 @@ $(document).ready(function() {
     });
 });
 
+// tabel referral marketing
+$(document).ready(function() {
+    $('#referral_marketing').DataTable({
+        'processing': true,
+        'serverSide': true,
+        'lengthChange': true,
+        'autoWidth': true,
+        'serverMethod': 'post',
+        'ajax': {
+            "url": `${site_url}/profile/tabel_referral`,
+        },
+        'columns': [{
+            'data': 'username'
+        }, {
+            'data': 'komisi_marketing',
+            render: function(data){
+                return (data) ? data : '-';
+            }
+        }, {
+            'data': 'created_at',
+            render: function(data){
+                var d = new Date(data);
+                var dd = parseInt(d.getMonth()) + 1;
+                return d.getDate() + '-' + dd + '-' + d.getFullYear();
+            }
+        }
+        ],
+        'order': [
+            [2, "desc"]
+        ],
+    });
+});
+
+
 // tabel tiket
 $(document).ready(function() {
     $('#tiket').DataTable({
@@ -441,6 +475,142 @@ $(document).ready(function() {
         ],
     });
 });
+
+// tabel users
+$(document).ready(function() {
+    $('#users').DataTable({
+        'processing': true,
+        'serverSide': true,
+        'lengthChange': true,
+        'autoWidth': true,
+        'serverMethod': 'post',
+        'ajax': {
+            "url": `${site_url}/ManageUsers/tabel_users`,
+        },
+        'columns': [{
+            'data': 'id'
+        }, {
+            'data': 'email'
+        }, {
+            'data': 'username'
+        }, {
+            'data': 'saldo'
+        }, {
+            'data': 'created_at',
+            render: function(data){
+                var d = new Date(data.split(' ')[0]);
+                var dd = parseInt(d.getMonth()) + 1;
+                return d.getDate() + '-' + dd + '-' + d.getFullYear();
+            }
+        }, {
+            'data': 'id',
+            render: function(data, type, row){
+                var htm = [
+                    `<button type="button" onclick="edit()" class="btn btn-primary waves-effect waves-light"><i class="bx bx-edit font-size-16 align-middle"></i></button>`,
+                    `<button type="button" onclick="banned()" class="btn btn-warning waves-effect waves-light mx-1"><i class="bx bx-block font-size-16 align-middle"></i></button>`,
+                    `<button type="button" onclick="delete()" class="btn btn-danger waves-effect waves-light"><i class="bx bx-trash font-size-16 align-middle"></i></button>`,
+                ];
+                return htm.join('');
+            }
+        }
+        ],
+        'order': [
+            [0, "desc"]
+        ],
+    });
+});
+
+// tabel marketing
+$(document).ready(function() {
+    $('#tabel_marketing').DataTable({
+        'processing': true,
+        'serverSide': true,
+        'lengthChange': true,
+        'autoWidth': true,
+        'serverMethod': 'post',
+        'ajax': {
+            "url": `${site_url}/ManageUsers/tabel_marketing`,
+        },
+        'columns': [{
+            'data': 'id'
+        }, {
+            'data': 'email'
+        }, {
+            'data': 'username'
+        }, {
+            'data': 'status',
+            render: function(data){
+                if(data == 'waiting'){
+                    var html = `<span class="badge bg-warning">WAITING</span>`;
+                } else if(data == 'aktif'){
+                    var html = `<span class="badge bg-primary">AKTIF</span>`;
+                } else {
+                    var html = `<span class="badge bg-danger">NONAKTIF</span>`;
+                }
+                return html;
+            }
+        }, {
+            'data': 'id',
+            render: function(data, type, row){
+                var htm = [
+                    `<button type="button" onclick="edit_marketing(${data})" class="btn btn-primary waves-effect waves-light mx-1"><i class="bx bx-edit font-size-16 align-middle"></i></button>`,
+                    `<button type="button" onclick="delete_marketing(${data})" class="btn btn-danger waves-effect waves-light"><i class="bx bx-trash font-size-16 align-middle"></i></button>`,
+                ];
+                return htm.join('');
+            }
+        }
+        ],
+        'order': [
+            [0, "desc"]
+        ],
+    });
+});
+
+function edit_marketing(id){
+    $.ajax({
+        url: site_url + '/ManageUsers/marketingDetail/' + id,
+        type: 'get',
+        success: function(hasil){
+            var obj = $.parseJSON(hasil);
+            if(obj.error){
+                Swal.fire('Error','','error');
+            } else {
+                $('#marketing_id').val(obj.marketing.id);
+                $('#email').val(obj.user.email);
+                $('#payment').val(obj.marketing.payment);
+                $('#norek').val(obj.marketing.norek);
+                $('#atasnama').val(obj.marketing.atasnama);
+                $('#status_marketing').val(obj.marketing.status);
+                $('#modal_edit_marketing').modal('show');
+
+            }
+        }
+    })
+}
+
+$('#edit_marketing_admin').on('click', function(){
+    $.ajax({
+        url: site_url + '/ManageUsers/editMarketing',
+        type: 'post',
+        data:{
+            id: $('#marketing_id').val(),
+            payment: $('#payment').val(),
+            norek: $('#norek').val(),
+            atasnama: $('#atasnama').val(),
+            status: $('#status_marketing').val(),
+        },
+        success: function(hasil){
+            var obj = $.parseJSON(hasil);
+            if(obj.error){
+                Swal.fire('Error', 'Gagal menyimpan data', 'error');
+            } else {
+                $('#tabel_marketing').DataTable().ajax.reload();
+                $('#modal_edit_marketing').modal('hide');
+                Swal.fire('Data berhasil disimpan!', '', 'success');
+            }
+        }
+    })
+})
 
 function close_tiket(id){
     Swal.fire({

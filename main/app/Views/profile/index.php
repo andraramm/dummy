@@ -37,6 +37,47 @@
                 <!-- end page title -->
 
                 <?= $this->include('partials/info'); ?>
+                <?php if (!in_groups('marketing') && !$marketing) : ?>
+                    <div class="alert alert-primary" id="offer_marketing">
+                        <p class="text-center mb-0">Jago promosi dan mau dapat penghasilan? Join tim marketing scraper sekarang! <br><button class="btn btn-primary btn-sm mt-1" data-bs-toggle="modal" data-bs-target="#daftar_marketing">Daftar Disini</button></p>
+                    </div>
+                <?php endif; ?>
+
+                <!-- modal -->
+                <div class="modal fade" id="daftar_marketing" tabindex="-1" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="daftar_marketingTitle">Form Pendaftaran Marketing</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Masukan detail informasi pembayaran yang akan digunakan untuk menerima pembayaran dari hasil marketing.</p>
+                                <div class="mb-3">
+                                    <label class="form-label">Metode Pembayaran<br><span class="text-danger">*Hanya menerima metode dibawah ini</span></label>
+                                    <select id="payment" class="form-control">
+                                        <option value="bca">BCA</option>
+                                        <option value="bri">BRI</option>
+                                        <option value="dana">Dana</option>
+                                        <option value="shopeepay">ShopeePay</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">No. Rekening / ID E-Wallet</label>
+                                    <input type="text" class="form-control" id="norek" placeholder="837209385894">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Atas Nama</label>
+                                    <input type="text" class="form-control" id="atasnama" placeholder="John Doe">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="daftar_marketing_button">Daftar</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div>
 
                 <div class="row">
                     <div class="col-sm-5">
@@ -61,11 +102,43 @@
                                 </table>
                             </div>
                         </div>
+                        <?php if (in_groups('marketing') || $marketing) : ?>
+                            <div class="card">
+                                <div class="card-header sidebar-alert">
+                                    <h4 class="card-title">Detail Marketing</h4>
+                                </div>
+                                <div class="card-body">
+                                    <input type="hidden" id="data_id" value="<?= $marketing['id']; ?>">
+                                    <div class="mb-3">
+                                        <label class="form-label">Metode Pembayaran<br><span class="text-danger">*Hanya menerima metode dibawah ini</span></label>
+                                        <select id="payment1" class="form-control">
+                                            <option value="bca" <?= ($marketing['status'] == 'bca') ? 'selected' : ''; ?>>BCA</option>
+                                            <option value="bri" <?= ($marketing['status'] == 'bri') ? 'selected' : ''; ?>>BRI</option>
+                                            <option value="dana" <?= ($marketing['status'] == 'dana') ? 'selected' : ''; ?>>Dana</option>
+                                            <option value="shopeepay" <?= ($marketing['status'] == 'shopeepay') ? 'selected' : ''; ?>>ShopeePay</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">No. Rekening / ID E-Wallet</label>
+                                        <input type="text" class="form-control" id="norek1" placeholder="837209385894" value="<?= $marketing['norek']; ?>">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Atas Nama</label>
+                                        <input type="text" class="form-control" id="atasnama1" placeholder="John Doe" value="<?= $marketing['atasnama']; ?>">
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6>Status : <span class="badge bg-<?= ($marketing['status'] == 'waiting') ? 'warning' : 'primary'; ?>"><?= strtoupper($marketing['status']); ?></span></h6>
+                                    </div>
+
+                                    <button class="btn btn-primary" id="edit_marketing_button">Edit Perubahan</button>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <div class="col-sm-7">
                         <div class="card">
                             <div class="card-header sidebar-alert">
-                                <h4 class="card-title">Referral</h4>
+                                <h4 class="card-title">Referral <?= (in_groups('marketing')) ? '<span class="badge bg-warning">MARKETING</span>' : ''  ?></h4>
                             </div>
                             <div class="card-body">
                                 <p class="text-center">Komisi muncul setelah teman yang kamu ajak melakukan deposit pertama.<br>Klik generate jika url referral belum muncul.</p>
@@ -76,9 +149,9 @@
                                         <button class="btn btn-primary shadow-none" id="copy" <?= ($refCode) ? '' : 'style="display: none;"'; ?>><i class="bx bx-copy"></i></button>
                                     </div>
                                 </div>
-                                <p class="text-center">Komisi yang akan kamu dapat <b>10% dari jumlah deposit pertama</b> teman yang jadi referralmu dan <b>5% untuk temanmu.</b></p>
+                                <p class="text-center">Komisi yang akan kamu dapat <b><?= (in_groups('marketing')) ? '50%' : '10%'; ?> dari jumlah deposit pertama</b> teman yang jadi referralmu dan <b>5% untuk temanmu.</b></p>
                                 <h5 class="text-center mb-4">Total Komisi : <span id="komisi">Rp <?= number_format($komisi, 0, '.', '.'); ?>,-</span></h5>
-                                <table id="referral" class="table table-bordered dt-responsive  nowrap w-100">
+                                <table id="<?= (in_groups('marketing')) ? 'referral_marketing' : 'referral'; ?>" class="table table-bordered dt-responsive  nowrap w-100">
                                     <thead>
                                         <tr>
                                             <th>Username</th>

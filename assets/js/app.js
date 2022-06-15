@@ -3,6 +3,52 @@
     
     var site_url = window.location.protocol + '//' + window.location.hostname;
 
+    $('#daftar_marketing_button').on('click', function(){
+        $.ajax({
+            url: site_url + '/profile/daftar_marketing',
+            type: 'post',
+            data: {
+                payment: $('#payment').val(),
+                norek: $('#norek').val(),
+                atasnama: $('#atasnama').val(),
+            },
+            success: function(hasil){
+                var obj = $.parseJSON(hasil);
+                if(obj.error){
+                    Swal.fire('Gagal!', obj.teks, 'error');
+                } else {
+                    $('#offer_marketing').remove();
+                    $('#daftar_marketing').modal('hide');
+                    Swal.fire('Berhasil', 'Pendaftaranmu akan ditinjau oleh admin maks 1x24 jam. Mohon untuk menunggu, terima kasih.', 'success');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 5000);
+                }
+            }
+        })
+    })
+
+    $('#edit_marketing_button').on('click', function(){
+        $.ajax({
+            url: site_url + '/profile/daftar_marketing',
+            type: 'post',
+            data: {
+                id: $('#data_id').val(),
+                payment: $('#payment1').val(),
+                norek: $('#norek1').val(),
+                atasnama: $('#atasnama1').val(),
+            },
+            success: function(hasil){
+                var obj = $.parseJSON(hasil);
+                if(obj.error){
+                    Swal.fire('Gagal menyimpan perubahan!', '', 'error');
+                } else {
+                    Swal.fire('Perubahan berhasil disimpan', '', 'success');
+                }
+            }
+        })
+    })
+
     $('#logout').on('click', function(){
         window.location.href = '/logout';
     })
