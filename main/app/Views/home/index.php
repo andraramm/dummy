@@ -199,7 +199,7 @@
     <script src="assets/home/vendor/php-email-form/validate.js"></script>
 
     <!-- Template Main JS File -->
-    <script src="assets/home/js/main.js"></script>
+    <script src="assets/home/js/main.js?v=1"></script>
 
 </body>
 
