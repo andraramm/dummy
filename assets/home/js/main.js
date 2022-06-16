@@ -149,10 +149,6 @@
     }
   });
 
-  /**
-   * Clients Slider
-   */
-
 
   /**
    * Porfolio isotope and filter
@@ -181,13 +177,6 @@
       }, true);
     }
 
-  });
-
-  /**
-   * Initiate portfolio lightbox 
-   */
-  const portfolioLightbox = GLightbox({
-    selector: '.portfokio-lightbox'
   });
 
   /**
