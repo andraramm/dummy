@@ -190,7 +190,7 @@
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
-    <script src="/assets/home/vendor/purecounter/purecounter.js"></script>
+    <!-- <script src="/assets/home/vendor/purecounter/purecounter.js"></script> -->
     <script src="/assets/home/vendor/aos/aos.js"></script>
     <script src="/assets/home/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/home/vendor/glightbox/js/glightbox.min.js"></script>
