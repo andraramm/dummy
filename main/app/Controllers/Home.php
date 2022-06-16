@@ -8,14 +8,17 @@ class Home extends BaseController
 	public function index()
 	{
 		$data = [
-			'title' => 'Woops | Scraper',
-			'judul' => 'Woops',
-			'teks' => 'Halaman ini dalam tahap pengembangan.'
+			'title' => 'Scraper | Best Scraper for CPA',
+			'judul' => 'Scraper',
 		];
-		return view('/errors/html/page_mt', $data);
+		return view('/home/index', $data);
 	}
 	public function maintenance()
 	{
-		return view('maintenance');
+		$data = [
+			'title' => 'Maintenance | Scraper',
+			'judul' => 'Maintenance',
+		];
+		return view('/errors/html/full_maintenance', $data);
 	}
 }
