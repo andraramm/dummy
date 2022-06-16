@@ -32,7 +32,7 @@ class Filters extends BaseConfig
 	 */
 	public $globals = [
 		'before' => [
-			'login' => ['except' => ['/', 'maintenance']]
+			'login' => ['except' => ['/', 'maintenance', 'assets']]
 			// 'honeypot',
 			// 'csrf',
 		],
