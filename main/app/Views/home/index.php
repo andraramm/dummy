@@ -199,7 +199,23 @@
     <script src="/assets/home/vendor/php-email-form/validate.js"></script>
 
     <!-- Template Main JS File -->
-    <script src="assets/home/js/main.js?v=1"></script>
+    <script src="assets/home/js/main.js?v=2"></script>
+    <script>
+        /**
+         * Animation on scroll
+         */
+        function aos_init() {
+            AOS.init({
+                duration: 1000,
+                easing: "ease-in-out",
+                once: true,
+                mirror: false
+            });
+        }
+        window.addEventListener('load', () => {
+            aos_init();
+        });
+    </script>
 
 </body>
 
